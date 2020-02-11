@@ -1,12 +1,30 @@
-from flask import Flask, render_template
+from flask import Flask
+from flask_restful import Api
+from flask_sqlalchemy import SQLAlchemy
+
+
 
 app = Flask(__name__)
+api = Api(app)
 
-@app.route('/')
-@app.route('/index')
-def index():
-    return "Nothing worth seeing here"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'some-secret-hardcoded-value-to-change'
 
-@app.route('/login')
-def login():
-    return render_template("login_page.html")
+db = SQLAlchemy(app)
+
+@app.before_first_request
+def create_table():
+    db.create_all()
+
+
+
+import views, resources, models
+
+api.add_resource(resources.UserRegistration, '/registration')
+api.add_resource(resources.UserLogin, '/login')
+api.add_resource(resources.UserLogoutAccess, '/logout/access')
+api.add_resource(resources.UserLogoutRefresh, '/logout/refresh')
+api.add_resource(resources.TokenRefresh, '/token/refresh')
+api.add_resource(resources.AllUsers, '/users')
+api.add_resource(resources.SecretResource, '/secret')
