@@ -30,8 +30,14 @@ class UserRegistration(Resource):
 class UserLogin(Resource):
     def post(self):
         data = parser.parse_args()
-        return data
-      
+        current_user = UserModel.find_by_username(data['username'])
+        if not current_user:
+            return {'message':'User {} doesnt exists'.format(data['username'])}
+
+        if data['password'] == current_user.password:
+            return {'message':'Logged in as {} '.format(current_user.username)}
+        else:
+            return {'message':'Wrong password'}      
       
 class UserLogoutAccess(Resource):
     def post(self):
