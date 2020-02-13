@@ -4,7 +4,12 @@ from flask import jsonify, render_template, request
 @app.route('/')
 @app.route('/index')
 def index():
-    return jsonify({'message':'Nothing worth seeing here'})
+    return render_template('login_page.html')
+
+@app.route('/signup')
+def signup():
+    return render_template('signup_page.html')
+
 
 # @app.route('/login')
 # def login():
