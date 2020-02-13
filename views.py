@@ -11,6 +11,10 @@ def signup():
     return render_template('signup_page.html')
 
 
+@app.route('/dashboard')
+def dashboard():
+    return "<h1>Hello, I'm dashboard page</h1>"
+
 # @app.route('/login')
 # def login():
 #     return render_template("login_page.html")

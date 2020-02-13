@@ -25,11 +25,12 @@ class UserRegistration(Resource):
             new_user.save_to_db()
             access_token = create_access_token(identity= data['username'])
             refresh_token = create_refresh_token(identity = data['username'])
-            return {
-                'message':'User {} was created'.format(data['username']),
-                'access_token':access_token,
-                'refresh_token':refresh_token
-            }
+            # return {
+            #     'message':'User {} was created'.format(data['username']),
+            #     'access_token':access_token,
+            #     'refresh_token':refresh_token
+            # }
+            return redirect(url_for('dashboard'))
         except:
             return {'message':'Something went wrong'},500
 
