@@ -13,9 +13,9 @@ def signup():
 
 @app.route('/dashboard')
 def dashboard():
-    return "<h1>Hello, I'm dashboard page</h1>"
+    return render_template('dashboard.html')
 
-# @app.route('/login')
+# @app.route('/login')  
 # def login():
 #     return render_template("login_page.html")
 

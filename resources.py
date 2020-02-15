@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 from models import UserModel, RevokedTokenModel
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required,
 get_jwt_identity, get_raw_jwt)
-from flask import redirect, url_for
+from flask import redirect, url_for, make_response, session
 
 parser = reqparse.RequestParser()
 
@@ -30,7 +30,12 @@ class UserRegistration(Resource):
             #     'access_token':access_token,
             #     'refresh_token':refresh_token
             # }
-            return redirect(url_for('dashboard'))
+            resp = make_response(redirect(url_for('dashboard')))
+            resp.set_cookie('access_token',access_token, httponly=True)
+            resp.set_cookie('refresh_token',refresh_token, httponly=True)
+            session['username'] = data['username']
+            #return redirect(url_for('dashboard', messages="test"))
+            return resp
         except:
             return {'message':'Something went wrong'},500
 
