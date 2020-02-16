@@ -1,12 +1,12 @@
 body{
-    background: #00589F;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00589F', endColorstr='#0073CF', GradientType=0);
+    /* background: #00589F; */
+    /* filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00589F', endColorstr='#0073CF', GradientType=0);
     background: -webkit-linear-gradient(to bottom, #00589F 50%, #0073CF) !important;
     background: -moz-linear-gradient(to bottom, #00589F 50%, #0073CF) !important;
     background: -ms-linear-gradient(to bottom, #00589F 50%, #0073CF) !important;
     background: -o-linear-gradient(to bottom, #00589F 50%, #0073CF) !important;
     background: linear-gradient(to bottom, #00589F 50%, #0073CF) !important;
-    color: white;
+    color: white; */
   }
   
   div.well{
@@ -33,4 +33,12 @@ body{
     width:200px;
     height:30px;
     background-image:url('http://placehold.it/200x30/000000/ffffff/&text=BRAND+LOGO');
+  }
+
+  #element-add{
+    width: 170px;
+    height: 170px;
+    font-size: 100px;
+    margin: 20px 20px 20px 20px;
+    border-radius: 40px;
   }
