@@ -7,6 +7,7 @@ class UserModel(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username    = db.Column(db.String(120), unique=True, nullable=False)
     password    = db.Column(db.String(120), nullable=False)
+    notes       = db.relationship('NotesModel', backref='user')
 
     @staticmethod
     def generate_hash(password):
@@ -56,3 +57,9 @@ class RevokedTokenModel(db.Model):
     def is_jti_blacklisted(cls, jti):
         query = cls.query.filter_by(jti = jti).first()
         return bool(query)
+
+class NotesModel(db.Model):
+        __tablename__ = 'notes'
+        id          = db.Column(db.Integer, primary_key=True)
+        note        = db.Column(db.Text)
+        user_id     = db.Column(db.Integer, db.ForeignKey('users.id'))
