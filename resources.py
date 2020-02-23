@@ -1,13 +1,13 @@
 from flask_restful import Resource, reqparse
-from models import UserModel, RevokedTokenModel
+from models import UserModel, RevokedTokenModel, NotesModel
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required,
 get_jwt_identity, get_raw_jwt)
 from flask import redirect, url_for, make_response, session
 
 parser = reqparse.RequestParser()
 
-parser.add_argument('username', help='This field cannot be blank', required=True)
-parser.add_argument('password', help='This field cannot be blank', required=True)
+parser.add_argument('username', help='This field cannot be blank', required=False)
+parser.add_argument('password', help='This field cannot be blank', required=False)
 
 
 class UserRegistration(Resource):
@@ -39,7 +39,6 @@ class UserRegistration(Resource):
         except:
             return {'message':'Something went wrong'},500
 
-
 class UserLogin(Resource):
     def post(self):
         data = parser.parse_args()
@@ -50,6 +49,7 @@ class UserLogin(Resource):
         if UserModel.verify_hash(data['password'], current_user.password):
             access_token = create_access_token(identity = data['username'])
             refresh_token = create_refresh_token(identity= data['username'])
+            session['username'] = data['username']
             return {
                 'message':'Logged in as {} '.format(current_user.username),
                 'access_token':access_token,
@@ -86,19 +86,34 @@ class TokenRefresh(Resource):
         current_user = get_jwt_identity()
         access_token = create_refresh_token(identity = current_user)
         return {'access_token': access_token}
-      
-      
+         
 class AllUsers(Resource):
     def get(self):
         return UserModel.return_all()
 
     def delete(self):
         return UserModel.delete_all()
-      
-      
+         
 class SecretResource(Resource):
     @jwt_required
     def get(self):
         return {
             'answer': 42
         }
+
+class AddNote(Resource):
+    def post(self):
+        data = parser.parse_args()
+        
+        new_note = NotesModel(
+            note = "Simple note for testing purposes",
+            user = UserModel.find_by_username(session['username'])
+        )
+        try:
+            new_note.save_to_db()
+        except Exception as e:
+            return {'message':'Something went wrong: {}'.format(e)}
+
+        return {"message":"AddNoteReturn"}
+
+

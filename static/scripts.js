@@ -5,7 +5,24 @@ function addNote(){
     var content = document.createElement("INPUT")
     var button = document.createElement("BUTTON")
     button.className= "btn";
-    button.innerHTML = "CLICK ME";
+    button.id = "button".concat();
+    button.innerHTML = "SUBMIT";
+
+    button.onclick = function(){
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function(){
+            if(xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
+                console.log(xhttp.responseText);
+              }
+        };
+
+        xhttp.open("POST", '/note/add', true);
+        // xhttp.send("note=".concat());
+        xhttp.send()
+
+    };
+
     // document.body.appendChild(btn);
     inputBox.appendChild(content);
     inputBox.appendChild(button);

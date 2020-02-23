@@ -63,3 +63,8 @@ class NotesModel(db.Model):
         id          = db.Column(db.Integer, primary_key=True)
         note        = db.Column(db.Text)
         user_id     = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+
+        def save_to_db(self):
+            db.session.add(self)
+            db.session.commit()
