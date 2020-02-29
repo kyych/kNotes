@@ -28,3 +28,8 @@ function addNote(){
     inputBox.appendChild(button);
     document.body.appendChild(inputBox);
 }
+
+
+function getNotes(username){
+    console.log(username);
+}
